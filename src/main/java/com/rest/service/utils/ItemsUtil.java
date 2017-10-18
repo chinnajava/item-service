@@ -32,9 +32,9 @@ public class ItemsUtil {
     public void add(Items items) {
         boolean isInvalidPostedTime = items.getItem().getTimestamp().isBefore(LocalDateTime.now());
         Assert.isTrue(isInvalidPostedTime, "posted time in the future");
-        allItems.add(items);
         long diffSeconds = LocalDateTime.now().atZone(zoneId).toEpochSecond() - items.getItem().getTimestamp().atZone(zoneId).toEpochSecond();
         if (diffSeconds <= MAX_SECONDS) {
+            allItems.add(items);
             rateWindowQueue.offer(items);
         }
         top100.add(items);
